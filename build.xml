@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<project name="pizza" default="run">
+
+  <property name="src.dir" value="${basedir}/src"/>
+  <property name="classes.dir" value="${basedir}/build"/>
+
+  <target name="compile">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" includeAntRuntime="false">
+    </javac>
+  </target>
+  
+  <target name="run" depends="compile">
+    <java classpath="${classes.dir}" 
+	  classname="pizza.PizzaMain"
+	  fork="true">
+	<assertions>
+	    <enable />
+	</assertions>
+    </java>
+  </target>
+  
+  <target name="clean">
+    <delete dir="${classes.dir}"/>
+  </target>
+</project>
