@@ -7,19 +7,19 @@ public abstract class Pizza {
     public enum Topping { HAM, MUSHROOM, ONION, PEPPER, SAUSAGE }
     final Set<Topping> tops;
 
-    abstract static class Builder<T extends Pizza, B extends Builder<T, B>> {
+    abstract static class Builder<T extends Builder<T>> {
         EnumSet<Topping> tops = EnumSet.noneOf(Topping.class);
-        public B addTopping(Topping topping) {
+        public T addTopping(Topping topping) {
             tops.add(Objects.requireNonNull(topping));
             return self();
         }
 
         abstract Pizza build();
 
-        protected abstract B self();
+        protected abstract T self();
     }
 
-    Pizza(Builder<?, ?> builder) {
+    Pizza(Builder<?> builder) {
         tops = builder.tops.clone(); // Defensive copy (Item 39)
     }
 }
