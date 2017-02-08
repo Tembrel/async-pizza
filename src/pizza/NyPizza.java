@@ -16,6 +16,8 @@ public class NyPizza extends Pizza {
         public NyPizza build() {
             return new NyPizza(this);
         }
+
+        protected Builder self() { return this; }
     }
 
     private NyPizza(Builder builder) {

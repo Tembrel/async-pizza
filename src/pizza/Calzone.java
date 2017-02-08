@@ -14,6 +14,8 @@ public class Calzone extends Pizza {
         public Calzone build() {
             return new Calzone(this);
         }
+
+        protected Builder self() { return this; }
     }
 
     private Calzone(Builder builder) {
