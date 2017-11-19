@@ -10,24 +10,23 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * assembling rolled risen dough, tomato sauce, and grated
  * cheese on a tray and baking it.
  */
-public class FuturePizza {
+public class FuturePizzaBuilder {
 
     private final Executor exec;
 
-    public FuturePizza(Executor exec) {
+    public FuturePizzaBuilder(Executor exec) {
         this.exec = exec;
     }
 
     /** Fakes work and traces progress. */
-    <T, U> CompletableFuture<U> work(long millis, String task, Function<T, U> action, T arg) {
+    <T, U> CompletableFuture<U> work(long millis, String task, Function<T, U> action, T in) {
         return supplyAsync(() -> {
             try {
-                Object a = arg instanceof String[] ? String.join(", ", (String[]) arg) : arg;
-                System.out.println("Started " + task + ": " + a);
+                System.out.println("Started " + task + ": " + in);
                 MILLISECONDS.sleep(millis);
-                U result = action.apply(arg);
-                System.out.println("Finished " + task + ": " + result);
-                return result;
+                U out = action.apply(in);
+                System.out.println("Finished " + task + ": " + out);
+                return out;
             } catch (InterruptedException ex) {
                 throw new RuntimeException("Punting on unexpected interruption");
             }
@@ -35,7 +34,7 @@ public class FuturePizza {
     }
 
     CompletableFuture<String> combine(String... ingredients) {
-        return work(120 * ingredients.length, "combining", t -> String.join("+", t), ingredients);
+        return work(120 * ingredients.length, "combining", t -> t, String.join("+", ingredients));
     }
 
     CompletableFuture<String> letRise(String dough) {
@@ -50,7 +49,7 @@ public class FuturePizza {
         return work(400, "grating", t -> "grated " + t, cheese);
     }
 
-    CompletableFuture<String> makePizza() {
+    CompletableFuture<String> makeLayers() {
         CompletableFuture<String> makeDough = combine("Flour", "Water", "Yeast")
             .thenCompose(this::letRise);
 
@@ -69,9 +68,9 @@ public class FuturePizza {
         int CONCURRENCY = 4;
         ExecutorService exec = Executors.newFixedThreadPool(CONCURRENCY);
         try {
-            FuturePizza cp = new FuturePizza(exec);
-            CompletableFuture<String> makePizza = cp.makePizza();
-            System.out.println("Ready to bake: " + makePizza.join());
+            FuturePizzaBuilder builder = new FuturePizzaBuilder(exec);
+            CompletableFuture<String> makeLayers = builder.makeLayers();
+            System.out.println("Ready to bake: " + makeLayers.join());
         } finally {
             exec.shutdown();
         }
