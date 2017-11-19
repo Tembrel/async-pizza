@@ -19,13 +19,13 @@ public class FuturePizzaBuilder {
     }
 
     /** Fakes work and traces progress. */
-    <T, U> CompletableFuture<U> work(long millis, String task, Function<T, U> action, T in) {
+    <T, U> CompletableFuture<U> work(long millis, String task, Function<T, U> action, T arg) {
         return supplyAsync(() -> {
             try {
-                System.out.println("Started " + task + ": " + in);
+                System.out.println("Started " + task + ": " + arg);
                 MILLISECONDS.sleep(millis);
-                U out = action.apply(in);
-                System.out.println("Finished " + task + ": " + out);
+                U out = action.apply(arg);
+                System.out.println("Finished " + task + ": " + arg);
                 return out;
             } catch (InterruptedException ex) {
                 throw new RuntimeException("Punting on unexpected interruption");

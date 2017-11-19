@@ -55,13 +55,6 @@ Both approaches use a fixed-size thread pool
 to run tasks asynchronously,
 and both simulate real work by sleeping for a given amount of time.
 
-The `CompletableFuture`-based version shows the input of each task on starting
-and the output of that task on finishing.
-The `CountDownLatch`-based version shows the input of each task when
-starting and finishing.
-The reason for the difference has to do with making the examples concise, and does
-not reflect an inherent limitation of either approach.	
-
 The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/PizzaDemo.java)
 class runs both versions.
 

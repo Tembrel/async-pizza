@@ -38,11 +38,11 @@ public class LatchPizzaBuilder {
             try {
                 if (waitFor != null)
                     waitFor.await();
-                String in = supplier.get();
-                System.out.println("Started " + task + ": " + in);
+                String arg = supplier.get();
+                System.out.println("Started " + task + ": " + arg);
                 MILLISECONDS.sleep(millis);
-                action.accept(in);
-                System.out.println("Finished " + task + ": " + in);
+                action.accept(arg);
+                System.out.println("Finished " + task + ": " + arg);
                 ready.countDown();
             } catch (InterruptedException ex) {
                 throw unexpectedInterruption();
@@ -67,7 +67,7 @@ public class LatchPizzaBuilder {
 
     void grateCheese() {
         work(null, layerReady, 400, "grating",
-            () -> "cheese", t -> { cheese = "grated " + t; });
+            () -> "Cheese", t -> { cheese = "grated " + t; });
     }
 
     String build() {
