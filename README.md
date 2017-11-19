@@ -51,7 +51,7 @@ It waits for 3, 4, and 5 to be ready before performing 6 and 7 together.
 3 --------------+--> 6, 7
 4 --------------/
 ```
-To simplify comparison between the two approaches, both use a fixed-size thread pool
+Both approaches use a fixed-size thread pool
 to run tasks asynchronously,
 and both simulate real work by sleeping for a given amount of time.
 
@@ -71,3 +71,12 @@ Many other approaches are possible, including using plain
 [Future](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html)s
 returned from
 [ExecutorService.submit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html#submit-java.util.concurrent.Callable-).
+
+The decision to use a fixed-size thread pool and the choice of that fixed size
+have important consequences:
+If the tasks are not started in dependency order and the pool size is less
+than the number of tasks needed to make progress, the program will deadlock.
+
+[ForkJoin tasks](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinTask.html)
+can be used to virtually eliminate the risk of such deadlock.
+
