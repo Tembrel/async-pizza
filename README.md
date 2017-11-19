@@ -20,13 +20,13 @@ The DAG of dependencies looks like this:
 ```
 The [FuturePizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/FuturePizzaBuilder.java)
 approach uses
-[CompletableFutures](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html)
+[CompletableFuture](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html)s
 to arrange for
 the tasks to be performed in an order consistent with this DAG.
 
 The [LatchPizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/LatchPizzaBuilder.java)
 approach uses
-[CountDownLatches](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CountDownLatch.html)
+[CountDownLatch](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CountDownLatch.html)es
 to prevent tasks from
 proceeding until the tasks they depend on have completed.
 Unlike the future-based approach, this class uses fields to hold
