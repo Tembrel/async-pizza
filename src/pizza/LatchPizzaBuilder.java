@@ -60,9 +60,9 @@ public class LatchPizzaBuilder {
             () -> rawDough, t -> { risenDough = "risen " + t; });
     }
 
-    void rollDough() {
-        work(doughRisen, layerReady, 50, "rolling",
-            () -> risenDough, t -> { crust = "rolled " + t; });
+    void rollOut() {
+        work(doughRisen, layerReady, 50, "rolling out",
+            () -> risenDough, t -> { crust = "rolled-out " + t; });
     }
 
     void grateCheese() {
@@ -75,7 +75,7 @@ public class LatchPizzaBuilder {
         letRise();
         combine(layerReady, t -> { sauce = t; }, "Tomato", "Oil", "Garlic", "Oregano");
         grateCheese();
-        rollDough();
+        rollOut();
         try{
             layerReady.await(); // Wait for all three layers to be ready.
             return cheese + " on " + sauce + " on " + crust;

@@ -41,8 +41,8 @@ public class FuturePizzaBuilder {
         return work(100, "letting rise", t -> "risen " + t, dough);
     }
 
-    CompletableFuture<String> roll(String dough) {
-        return work(50, "rolling", t -> "rolled " + t, dough);
+    CompletableFuture<String> rollOut(String dough) {
+        return work(50, "rolling out", t -> "rolled-out " + t, dough);
     }
 
     CompletableFuture<String> grate(String cheese) {
@@ -59,7 +59,7 @@ public class FuturePizzaBuilder {
         CompletableFuture<String> grateCheese = grate("Cheese");
 
         return makeDough
-            .thenComposeAsync(this::roll, exec)
+            .thenComposeAsync(this::rollOut, exec)
             .thenCombineAsync(makeSauce, (crust, sauce) -> sauce + " on " + crust, exec)
             .thenCombineAsync(grateCheese, (saucyCrust, cheese) -> cheese + " on " + saucyCrust, exec);
     }
