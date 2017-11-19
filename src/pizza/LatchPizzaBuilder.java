@@ -52,7 +52,7 @@ public class LatchPizzaBuilder {
 
     void combine(CountDownLatch ready, Consumer<String> action, String... ingredients) {
         work(null, ready, 120 * ingredients.length, "combining",
-            () -> String.join("+", ingredients), action);
+            () -> String.join(", ", ingredients), action);
     }
 
     void letRise() {
@@ -71,9 +71,9 @@ public class LatchPizzaBuilder {
     }
 
     String build() {
-        combine(doughCombined, t -> { rawDough = t; }, "Flour", "Water", "Yeast");
+        combine(doughCombined, t -> { rawDough = "{"+t+"}"; }, "Flour", "Water", "Yeast");
         letRise();
-        combine(layerReady, t -> { sauce = t; }, "Tomato", "Oil", "Garlic", "Oregano");
+        combine(layerReady, t -> { sauce = "{"+t+"}"; }, "Tomato", "Oil", "Garlic", "Oregano");
         grateCheese();
         rollOut();
         try{

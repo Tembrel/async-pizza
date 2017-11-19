@@ -34,7 +34,7 @@ public class FuturePizzaBuilder {
     }
 
     CompletableFuture<String> combine(String... ingredients) {
-        return work(120 * ingredients.length, "combining", t -> t, String.join("+", ingredients));
+        return work(120 * ingredients.length, "combining", t -> "{"+t+"}", String.join(", ", ingredients));
     }
 
     CompletableFuture<String> letRise(String dough) {
