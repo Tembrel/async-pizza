@@ -75,8 +75,8 @@ returned from
 The decision to use a fixed-size thread pool and the choice of that fixed size
 have important consequences:
 If the tasks are not started in dependency order and the pool size is less
-than the number of tasks needed to make progress, the program will deadlock.
+than the number of tasks needed to make progress, the program can deadlock.
 
-[ForkJoin tasks](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinTask.html)
+[ForkJoinTask](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinTask.html)s
 can be used to virtually eliminate the risk of such deadlock.
 
