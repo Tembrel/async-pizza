@@ -12,9 +12,10 @@ others. The example here is of making a pizza using the following tasks:
 
 The DAG of dependencies looks like this:
 ```
-1 --> 2 --> 5 --v
-3 --------------+--> 6 --v
-4 -----------------------+--> 7
+1 --> 2 --> 5 --\
+                +--> 6 --\
+3 --------------/        +--> 7
+4 -----------------------/
 ```
 The [LatchPizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/LatchPizzaBuilder.java)
 approach uses
