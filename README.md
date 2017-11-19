@@ -12,8 +12,10 @@ others. The motivating example is making a pizza using the following tasks:
 1. Putting the grated cheese on top of the sauce.
 
 Some of these tasks depend on others.
-For example, you can't let the dough rise (2) until the
-ingredients for the dough are combined (1).
+For example, you can't put the sauce on top of the
+crust (6) until both the
+ingredients for the sauce are combined (3) and the
+risen dough is rolled out into a crust (5).
 The complete DAG of dependencies looks like this:
 ```
 1 --> 2 --> 5 --\
