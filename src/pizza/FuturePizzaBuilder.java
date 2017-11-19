@@ -51,7 +51,7 @@ public class FuturePizzaBuilder {
 
     CompletableFuture<String> makeLayers() {
         CompletableFuture<String> makeDough = combine("Flour", "Water", "Yeast")
-            .thenCompose(this::letRise);
+            .thenComposeAsync(this::letRise, exec);
 
         CompletableFuture<String> makeSauce =
             combine("Tomato", "Oil", "Garlic", "Oregano");
