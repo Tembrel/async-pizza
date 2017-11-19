@@ -60,4 +60,4 @@ class runs both versions.
 Many other approaches are possible, including using plain
 [Future](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html)s
 returned from
-[ExecutorService.submit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html#submit).
+[ExecutorService.submit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html#submit-java.util.concurrent.Callable-).
