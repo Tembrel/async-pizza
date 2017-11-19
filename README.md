@@ -28,6 +28,12 @@ approach uses
 [CountDownLatches](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CountDownLatch.html)
 to prevent tasks from
 proceeding until the tasks they depend on have completed.
+Unlike the future-based approach, this class uses fields to hold
+intermediate state.
+Because these fields are written before and read after calls to corresponding
+high-level synchronizer methods (`write -> countDown` and `await -> read`),
+there is no need for further synchronization, nor do the fields need to be
+volatile.
 This implementation reflects a more restrictive dependency graph than the one shown above:
 It waits for 3, 4, and 5 to be ready before performing 6 and 7 together.
 ```
@@ -43,7 +49,7 @@ The `CountDownLatch`-based version shows the input of each task when
 starting and finishing.
 The reason for the difference has to do with making the structures
 of these programs similar, and does not reflect an inherent limitation
-of the latter approach.
+of the latter approach.	
 
 The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/PizzaDemo.java)
 class runs both versions.
