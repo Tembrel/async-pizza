@@ -37,5 +37,13 @@ It waits for 3, 4, and 5 to be ready before performing 6 and 7 together.
 ```
 Both cases use a fixed-size thread pool to run tasks asynchronously.
 
+The `CompletableFuture`-based version shows the input of each task on starting
+and the output of that task on finishing.
+The `CountDownLatch`-based version shows the input of each task when
+starting and finishing.
+The reason for the difference has to do with making the structures
+of these programs similar, and does not reflect an inherent limitation
+of the latter approach.
+
 The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/PizzaDemo.java)
 class runs both versions.
