@@ -1,8 +1,8 @@
 # Asynchronous interdependent tasks
 
-This repo has code demonstrating two different approaches to executing
-tasks asynchronously when the some tasks depend on the completion of
-others. The example here is of making a pizza using the following tasks:
+This repository has code demonstrating two different approaches to executing
+tasks asynchronously when some of the tasks depend on the completion of
+others. The motivating example is making a pizza using the following tasks:
 1. Combining the ingredients of the dough.
 1. Letting the dough rise.
 1. Combining the ingredients of the sauce.
@@ -11,13 +11,20 @@ others. The example here is of making a pizza using the following tasks:
 1. Putting the sauce on top of the crust.
 1. Putting the grated cheese on top of the sauce.
 
-The DAG of dependencies looks like this:
+Some of these tasks depend on others.
+For example, you can't let the dough rise (2) until the
+ingredients for the dough are combined (1).
+The complete DAG of dependencies looks like this:
 ```
 1 --> 2 --> 5 --\
                 +--> 6 --\
 3 --------------/        +--> 7
 4 -----------------------/
 ```
+Multiple cooks can speed up the process by performing tasks
+independently, as long as no task is started until all the
+tasks it depends on are done.
+
 The [FuturePizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/FuturePizzaBuilder.java)
 approach uses
 [CompletableFuture](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html)s
@@ -42,15 +49,16 @@ It waits for 3, 4, and 5 to be ready before performing 6 and 7 together.
 3 --------------+--> 6, 7
 4 --------------/
 ```
-Both cases use a fixed-size thread pool to run tasks asynchronously.
+To simplify comparison between the two approaches, both use a fixed-size thread pool
+to run tasks asynchronously,
+and both simulate real work by sleeping for a given amount of time.
 
 The `CompletableFuture`-based version shows the input of each task on starting
 and the output of that task on finishing.
 The `CountDownLatch`-based version shows the input of each task when
 starting and finishing.
-The reason for the difference has to do with making the structures
-of these programs similar, and does not reflect an inherent limitation
-of the latter approach.	
+The reason for the difference has to do with making the examples concise, and does
+not reflect an inherent limitation of either approach.	
 
 The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/PizzaDemo.java)
 class runs both versions.
