@@ -17,11 +17,11 @@ public class LatchPizzaBuilder {
     private final CountDownLatch doughRisen = new CountDownLatch(1);    
     private final CountDownLatch layerReady = new CountDownLatch(3);
 
-    private volatile String rawDough;
-    private volatile String risenDough;
-    private volatile String crust;
-    private volatile String sauce;
-    private volatile String cheese;
+    private String rawDough;
+    private String risenDough;
+    private String crust;
+    private String sauce;
+    private String cheese;
 
     public LatchPizzaBuilder(Executor exec) {
         this.exec = exec;
