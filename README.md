@@ -16,12 +16,21 @@ The DAG of dependencies looks like this:
 3 --------------+--> 6 --v
 4 -----------------------+--> 7
 ```
-The `LatchPizzaBuilder` approach uses CountDownLatches to prevent tasks from
+The [LatchPizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/LatchPizzaBuilder.java)
+approach uses
+[CountDownLatches](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CountDownLatch.html)
+to prevent tasks from
 proceeding until the tasks they depend on have completed.
 This implementation reflects a more restrictive dependency graph than the one shown above:
 It waits for 3, 4, and 5 to be ready before performing 6 and 7 together.
 
-The `FuturePizzaBuilder` approach uses CompletableFutures to arrange for
+The [FuturePizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/FuturePizzaBuilder.java)
+approach uses
+[CompletableFutures](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html)
+to arrange for
 the tasks to be performed in an order consistent with the DAG shown above.
 
 Both cases use a fixed-size thread pool to run tasks asynchronously.
+
+The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/PizzaDemo.java)
+class runs both versions.
