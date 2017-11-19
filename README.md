@@ -1,4 +1,5 @@
 # Asynchronous interdependent tasks
+
 This repo has code demonstrating two different approaches to executing
 tasks asynchronously when the some tasks depend on the completion of
 others. The example here is of making a pizza using the following tasks:
@@ -53,3 +54,10 @@ of the latter approach.
 
 The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/PizzaDemo.java)
 class runs both versions.
+
+## Other possibilities
+
+Many other approaches are possible, including using plain
+[Future](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html)s
+returned from
+[ExecutorService.submit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html#submit).
