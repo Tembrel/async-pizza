@@ -70,7 +70,7 @@ public class LatchPizzaBuilder {
             t -> { cheese = "grated " + t; }, layerReady);
     }
 
-    String build() {
+    String buildPizza() {
         combine(t -> { rawDough = "{"+t+"}"; }, doughCombined, "Flour", "Water", "Yeast");
         letRise();
         combine(t -> { sauce = "{"+t+"}"; }, layerReady, "Tomato", "Oil", "Garlic", "Oregano");
@@ -89,7 +89,7 @@ public class LatchPizzaBuilder {
         ExecutorService exec = Executors.newFixedThreadPool(CONCURRENCY);
         try {
             LatchPizzaBuilder builder = new LatchPizzaBuilder(exec);
-            String pizza = builder.build();
+            String pizza = builder.buildPizza();
             System.out.println("Ready to bake: " + pizza);
         } finally {
             exec.shutdown();

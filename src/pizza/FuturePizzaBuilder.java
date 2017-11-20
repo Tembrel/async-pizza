@@ -50,7 +50,7 @@ public class FuturePizzaBuilder {
         return work(400, "grating", cheese, t -> "grated " + t);
     }
 
-    CompletableFuture<String> makeLayers() {
+    CompletableFuture<String> buildPizza() {
         CompletableFuture<String> makeDough = combine("Flour", "Water", "Yeast")
             .thenComposeAsync(this::letRise, exec);
 
@@ -70,8 +70,8 @@ public class FuturePizzaBuilder {
         ExecutorService exec = Executors.newFixedThreadPool(CONCURRENCY);
         try {
             FuturePizzaBuilder builder = new FuturePizzaBuilder(exec);
-            CompletableFuture<String> makeLayers = builder.makeLayers();
-            System.out.println("Ready to bake: " + makeLayers.join());
+            String pizza = builder.buildPizza().join();
+            System.out.println("Ready to bake: " + pizza);
         } finally {
             exec.shutdown();
         }
