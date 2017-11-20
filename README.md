@@ -56,11 +56,23 @@ to run tasks asynchronously,
 and both simulate real work by sleeping for a given amount of time.
 
 The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/PizzaDemo.java)
-class runs both versions.
+class runs both versions. Both produce identical output, except that the output lines
+might not be in the same order. This is because thread task scheduling can be affected
+by external factors like system load.
+
+The `CompletableFuture`-based version has several advantages over the latch-based one:
+1. It's shorter and easier to understand.
+1. It doesn't need to keep intermediate state in fields.
+1. It can be adapted to introduce new or different dependencies very easily;
+   the latch-based code would require more intricate reasoning to do the same.
+1. In real usage, decisions about whether to perform a dependent task in the
+   same thread as the task it depends on (or with a different Executor entirely)
+   can be changed without having to redesign the code.
+   This would be very difficult with latch-based approaches.
 
 ## Other possibilities
 
-Many other approaches are possible, including using plain
+Other approaches are possible, including using plain
 [Future](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html)s
 returned from
 [ExecutorService.submit](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html#submit-java.util.concurrent.Callable-).
@@ -69,7 +81,14 @@ The decision to use a fixed-size thread pool and the choice of that fixed size
 have important consequences:
 If the tasks are not started in dependency order and the pool size is less
 than the number of tasks needed to make progress, the program can deadlock.
+For this toy example, using a cached thread pool, which can add threads when
+needed, would avoid the risk of deadlock, but in production settings this
+would risk system resource exhaustion, which could be much worse than deadlock.
 
 [ForkJoinTask](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinTask.html)s
-can be used to virtually eliminate the risk of such deadlock.
+can be used to reduce the opportunities for deadlock, by forking and joining dependent tasks.
+When such tasks are used inside
+[ForkJoinPool](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html)s,
+work-stealing is used to make progress even when all active threads in the pool are
+running tasks that are waiting for their dependencies.
 
