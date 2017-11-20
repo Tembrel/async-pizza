@@ -22,10 +22,10 @@ public class FuturePizzaBuilder {
     <T, U> CompletableFuture<U> work(long millis, String action, T in, Function<T, U> task) {
         return supplyAsync(() -> {
             try {
-                System.out.println("Started " + action + ": " + in);
+                System.out.println("Started " + action + " " + in);
                 MILLISECONDS.sleep(millis);
                 U out = task.apply(in);
-                System.out.println("Finished " + action + ": " + in);
+                System.out.println("Finished " + action + " " + in);
                 return out;
             } catch (InterruptedException ex) {
                 throw new RuntimeException("Punting on unexpected interruption");

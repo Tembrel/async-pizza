@@ -39,10 +39,10 @@ public class LatchPizzaBuilder {
                 if (waitFor != null)
                     waitFor.await();
                 String in = input.get();
-                System.out.println("Started " + action + ": " + in);
+                System.out.println("Started " + action + " " + in);
                 MILLISECONDS.sleep(millis);
                 task.accept(in);
-                System.out.println("Finished " + action + ": " + in);
+                System.out.println("Finished " + action + " " + in);
                 ready.countDown();
             } catch (InterruptedException ex) {
                 throw unexpectedInterruption();
