@@ -51,13 +51,13 @@ public class FuturePizzaBuilder {
     }
 
     CompletableFuture<String> buildPizza() {
-        CompletableFuture<String> makeDough = combine("Flour", "Water", "Yeast")
+        CompletableFuture<String> makeDough = combine("flour", "water", "yeast")
             .thenComposeAsync(this::letRise, exec);
 
         CompletableFuture<String> makeSauce =
-            combine("Tomato", "Oil", "Garlic", "Oregano");
+            combine("tomato", "oil", "garlic", "oregano");
 
-        CompletableFuture<String> grateCheese = grate("Cheese");
+        CompletableFuture<String> grateCheese = grate("cheese");
 
         return makeDough
             .thenComposeAsync(this::rollOut, exec)
@@ -71,7 +71,7 @@ public class FuturePizzaBuilder {
         try {
             FuturePizzaBuilder builder = new FuturePizzaBuilder(exec);
             String pizza = builder.buildPizza().join();
-            System.out.println("Ready to bake: " + pizza);
+            System.out.println("Ready to bake " + pizza);
         } finally {
             exec.shutdown();
         }

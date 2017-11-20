@@ -66,14 +66,14 @@ public class LatchPizzaBuilder {
     }
 
     void grateCheese() {
-        work(400, "grating", null, () -> "Cheese",
+        work(400, "grating", null, () -> "cheese",
             t -> { cheese = "grated " + t; }, layerReady);
     }
 
     String buildPizza() {
-        combine(t -> { rawDough = "{"+t+"}"; }, doughCombined, "Flour", "Water", "Yeast");
+        combine(t -> { rawDough = "{"+t+"}"; }, doughCombined, "flour", "water", "yeast");
         letRise();
-        combine(t -> { sauce = "{"+t+"}"; }, layerReady, "Tomato", "Oil", "Garlic", "Oregano");
+        combine(t -> { sauce = "{"+t+"}"; }, layerReady, "tomato", "oil", "garlic", "oregano");
         grateCheese();
         rollOut();
         try {
@@ -90,7 +90,7 @@ public class LatchPizzaBuilder {
         try {
             LatchPizzaBuilder builder = new LatchPizzaBuilder(exec);
             String pizza = builder.buildPizza();
-            System.out.println("Ready to bake: " + pizza);
+            System.out.println("Ready to bake " + pizza);
         } finally {
             exec.shutdown();
         }
