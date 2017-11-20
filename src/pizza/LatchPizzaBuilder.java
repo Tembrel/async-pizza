@@ -76,7 +76,7 @@ public class LatchPizzaBuilder {
         combine(t -> { sauce = "{"+t+"}"; }, layerReady, "Tomato", "Oil", "Garlic", "Oregano");
         grateCheese();
         rollOut();
-        try{
+        try {
             layerReady.await(); // Wait for all three layers to be ready.
             return cheese + " on " + sauce + " on " + crust;
         } catch (InterruptedException ex) {
