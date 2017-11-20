@@ -58,7 +58,21 @@ and both simulate real work by sleeping for a given amount of time.
 The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/PizzaDemo.java)
 class runs both versions. Both produce identical output, except that the output lines
 might not be in the same order. This is because thread task scheduling can be affected
-by external factors like system load.
+by external factors like system load. Here's a sample run:
+```
+Started combining flour, water, yeast
+Started combining tomato, oil, garlic, oregano
+Started grating cheese
+Finished combining flour, water, yeast
+Started letting rise {flour, water, yeast}
+Finished grating cheese
+Finished letting rise {flour, water, yeast}
+Started rolling out risen {flour, water, yeast}
+Finished combining tomato, oil, garlic, oregano
+Finished rolling out risen {flour, water, yeast}
+Ready to bake grated cheese on {tomato, oil, garlic, oregano} on rolled-out risen {flour, water, yeast}
+```
+It's easy to verify that this is consistent with dependency order.
 
 The `CompletableFuture`-based version has several advantages over the latch-based one:
 1. It's shorter and easier to understand.
