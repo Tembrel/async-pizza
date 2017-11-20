@@ -27,13 +27,13 @@ Multiple cooks can speed up the process by performing tasks
 independently, as long as no task is started until all the
 tasks it depends on are done.
 
-The [FuturePizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/FuturePizzaBuilder.java)
+The [FuturePizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/FuturePizzaBuilder.java)
 approach uses
 [CompletableFuture](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html)s
 to arrange for
 the tasks to be performed in an order consistent with this DAG.
 
-The [LatchPizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/LatchPizzaBuilder.java)
+The [LatchPizzaBuilder](https://github.com/Tembrel/eg4jb/blob/master/src/LatchPizzaBuilder.java)
 approach uses
 [CountDownLatch](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CountDownLatch.html)es
 to prevent tasks from
@@ -55,7 +55,7 @@ Both approaches use a fixed-size thread pool
 to run tasks asynchronously,
 and both simulate real work by sleeping for a given amount of time.
 
-The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/pizza/PizzaDemo.java)
+The [PizzaDemo](https://github.com/Tembrel/eg4jb/blob/master/src/PizzaDemo.java)
 class runs both versions. Both produce identical output, except that the output lines
 might not be in the same order. This is because thread task scheduling can be affected
 by external factors like system load.
