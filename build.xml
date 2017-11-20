@@ -2,7 +2,7 @@
 
   <property name="src.dir" value="${basedir}/src"/>
   <property name="classes.dir" value="${basedir}/build"/>
-  <property name="run.class" value="pizza.PizzaDemo"/>
+  <property name="run.class" value="PizzaDemo"/>
 
   <target name="compile">
     <mkdir dir="${classes.dir}"/>

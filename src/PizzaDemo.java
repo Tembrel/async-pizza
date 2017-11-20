@@ -1,6 +1,4 @@
-package pizza;
-
-/*
+/**
  * Driver for LatchPizza and FuturePizza.
  */
 public class PizzaDemo {

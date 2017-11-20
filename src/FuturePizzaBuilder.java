@@ -1,11 +1,9 @@
-package pizza;
-
 import java.util.concurrent.*;
 import java.util.function.Function;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-/*
+/**
  * Makes pizza with CompletableFuture. Pizza is made by
  * assembling rolled risen dough, tomato sauce, and grated
  * cheese on a tray and baking it.
