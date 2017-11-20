@@ -32,17 +32,17 @@ public class LatchPizzaBuilder {
     }
 
     /** Fakes work and traces progress. */
-    void work(CountDownLatch waitFor, CountDownLatch ready, long millis,
-            String task, Supplier<String> supplier, Consumer<String> action) {
+    void work(long millis, String action, CountDownLatch waitFor, Supplier<String> input,
+            Consumer<String> task, CountDownLatch ready) {
         exec.execute(() -> {
             try {
                 if (waitFor != null)
                     waitFor.await();
-                String arg = supplier.get();
-                System.out.println("Started " + task + ": " + arg);
+                String in = input.get();
+                System.out.println("Started " + action + ": " + in);
                 MILLISECONDS.sleep(millis);
-                action.accept(arg);
-                System.out.println("Finished " + task + ": " + arg);
+                task.accept(in);
+                System.out.println("Finished " + action + ": " + in);
                 ready.countDown();
             } catch (InterruptedException ex) {
                 throw unexpectedInterruption();
@@ -50,30 +50,30 @@ public class LatchPizzaBuilder {
         });
     }
 
-    void combine(CountDownLatch ready, Consumer<String> action, String... ingredients) {
-        work(null, ready, 120 * ingredients.length, "combining",
-            () -> String.join(", ", ingredients), action);
+    void combine(Consumer<String> task, CountDownLatch ready, String... ingredients) {
+        work(120 * ingredients.length, "combining", null,
+            () -> String.join(", ", ingredients), task, ready);
     }
 
     void letRise() {
-        work(doughCombined, doughRisen, 100, "letting rise",
-            () -> rawDough, t -> { risenDough = "risen " + t; });
+        work(100, "letting rise", doughCombined, () -> rawDough,
+            t -> { risenDough = "risen " + t; }, doughRisen);
     }
 
     void rollOut() {
-        work(doughRisen, layerReady, 50, "rolling out",
-            () -> risenDough, t -> { crust = "rolled-out " + t; });
+        work(50, "rolling out", doughRisen, () -> risenDough,
+            t -> { crust = "rolled-out " + t; }, layerReady);
     }
 
     void grateCheese() {
-        work(null, layerReady, 400, "grating",
-            () -> "Cheese", t -> { cheese = "grated " + t; });
+        work(400, "grating", null, () -> "Cheese",
+            t -> { cheese = "grated " + t; }, layerReady);
     }
 
     String build() {
-        combine(doughCombined, t -> { rawDough = "{"+t+"}"; }, "Flour", "Water", "Yeast");
+        combine(t -> { rawDough = "{"+t+"}"; }, doughCombined, "Flour", "Water", "Yeast");
         letRise();
-        combine(layerReady, t -> { sauce = "{"+t+"}"; }, "Tomato", "Oil", "Garlic", "Oregano");
+        combine(t -> { sauce = "{"+t+"}"; }, layerReady, "Tomato", "Oil", "Garlic", "Oregano");
         grateCheese();
         rollOut();
         try{

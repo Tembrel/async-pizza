@@ -19,13 +19,13 @@ public class FuturePizzaBuilder {
     }
 
     /** Fakes work and traces progress. */
-    <T, U> CompletableFuture<U> work(long millis, String task, Function<T, U> action, T arg) {
+    <T, U> CompletableFuture<U> work(long millis, String action, T in, Function<T, U> task) {
         return supplyAsync(() -> {
             try {
-                System.out.println("Started " + task + ": " + arg);
+                System.out.println("Started " + action + ": " + in);
                 MILLISECONDS.sleep(millis);
-                U out = action.apply(arg);
-                System.out.println("Finished " + task + ": " + arg);
+                U out = task.apply(in);
+                System.out.println("Finished " + action + ": " + in);
                 return out;
             } catch (InterruptedException ex) {
                 throw new RuntimeException("Punting on unexpected interruption");
@@ -34,19 +34,20 @@ public class FuturePizzaBuilder {
     }
 
     CompletableFuture<String> combine(String... ingredients) {
-        return work(120 * ingredients.length, "combining", t -> "{"+t+"}", String.join(", ", ingredients));
+        return work(120 * ingredients.length, "combining",
+            String.join(", ", ingredients), t -> "{"+t+"}");
     }
 
     CompletableFuture<String> letRise(String dough) {
-        return work(100, "letting rise", t -> "risen " + t, dough);
+        return work(100, "letting rise", dough, t -> "risen " + t);
     }
 
     CompletableFuture<String> rollOut(String dough) {
-        return work(50, "rolling out", t -> "rolled-out " + t, dough);
+        return work(50, "rolling out", dough, t -> "rolled-out " + t);
     }
 
     CompletableFuture<String> grate(String cheese) {
-        return work(400, "grating", t -> "grated " + t, cheese);
+        return work(400, "grating", cheese, t -> "grated " + t);
     }
 
     CompletableFuture<String> makeLayers() {
